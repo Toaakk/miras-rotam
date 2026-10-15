@@ -23,7 +23,7 @@ jobs:
           python-version: '3.12'
 
       - name: Mekan verilerini guncelle
-        run: python scripts/mekan_guncelle.py
+        run: python scripts/collect.py
 
       - name: Degisiklikleri kaydet
         run: |
