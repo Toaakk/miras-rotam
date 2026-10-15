@@ -1,0 +1,36 @@
+
+name: Miras Rotam Mekan Guncelleme
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  mekanlari-guncelle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Dosyalari indir
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Mekan verilerini guncelle
+        run: python scripts/mekan_guncelle.py
+
+      - name: Degisiklikleri kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if ! git diff --cached --quiet; then
+            git commit -m "Mekan verilerini guncelle"
+            git push
+          fi
